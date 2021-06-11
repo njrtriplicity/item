@@ -1,25 +1,30 @@
-pipeline {
-    agent any
+node {
+    def app
 
-    tools {
-        maven 'maven-3.8.1'
-        jdk 'jdk8'
+    stage('Clone repository') {
+
+
+        checkout scm
     }
-    stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            }
+
+    stage('Build image') {
+
+       app = docker.build("brandonjones085/test")
+    }
+
+    stage('Test image') {
+
+
+        app.inside {
+            sh 'echo "Tests passed"'
         }
+    }
 
-        stage ('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
+    stage('Push image') {
 
+        docker.withRegistry('https://registry.hub.docker.com', 'git') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
         }
     }
 }
