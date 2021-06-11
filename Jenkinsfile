@@ -1,25 +1,23 @@
 pipeline {
-    agent any
+    stage('Clone repository') {
 
-    tools {
-        maven 'maven-3.8.1'
-        jdk 'jdk8'
-    }
-    stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
+            checkout scm
+        }
+
+        stage('Build image') {
+           app = docker.build("njrtriplicity/cb.viooh-item")
+        }
+
+        stage('Test image') {
+            app.inside {
+                sh 'echo "Tests passed"'
             }
         }
 
-        stage ('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
+        stage('Push image') {
+            docker.withRegistry('https://registry.hub.docker.com', 'git') {
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
             }
-
         }
-    }
 }
