@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh export MAVEN_HOME=/opt/maven
-                sh export PATH=$PATH:$MAVEN_HOME/bin
+                export MAVEN_HOME=/opt/maven
+                export PATH=$PATH:$MAVEN_HOME/bin
                 sh 'mvn --version'
             }
         }
