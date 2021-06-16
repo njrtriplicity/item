@@ -24,7 +24,7 @@ pipeline {
         }
         stage ('BuildDocker') {
             script {
-                itemImage = docker.build("item-image:${env.BUILD_ID}")
+                itemImage = docker.build("item-image2")
              }
         }
         stage('Push image') {
