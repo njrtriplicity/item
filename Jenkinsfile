@@ -24,7 +24,7 @@ pipeline {
         }
         stage ('BuildDocker') {
             steps {
-                   sh 'docker.build("item2")'
+                   sh 'docker build --tag=item2:latest .'
             }
         }
         stage('Push image') {
