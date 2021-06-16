@@ -23,15 +23,20 @@ pipeline {
             }
         }
         stage ('BuildDocker') {
-            script {
-                itemImage = docker.build("item-image2")
+            steps {
+                script
+                    {
+                        itemImage = docker.build("item-image2")
+                    }
             }
         }
         stage('Push image') {
-            script {
-                docker.withRegistry( 'https://hub.docker.com/', git ) {
-                    itemImage.push("$BUILD_NUMBER")
-                    itemImage.push('latest')
+            steps {
+                script {
+                        docker.withRegistry( 'https://hub.docker.com/', git ) {
+                            itemImage.push("$BUILD_NUMBER")
+                            itemImage.push('latest')
+                        }
                 }
             }
         }
