@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Push image') {
             steps {
-                sh 'docker push njtriplicity/item2'
+                sh 'docker push https://hub.docker.com/repository/docker/njrtriplicity/item2'
             }
         }
     }
