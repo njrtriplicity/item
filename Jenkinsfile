@@ -1,20 +1,29 @@
-node {
-      def app
-      stage('Clone repository') {
-            checkout scm
-      }
-      stage('Build image') {
-            app = docker.build("njrtriplicity/cb.viooh-item2")
-       }
-      stage('Test image') {
-            app.inside {
-             sh 'echo "Tests passed"'
+pipeline {
+    agent any
+    tools {
+        maven 'maven-3.8.1'
+        jdk 'jdk8'
+    }
+    stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                    echo "docker info"
+                '''
             }
         }
-       stage('Push image') {
-            docker.withRegistry('https://registry.hub.docker.com', 'git') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-              }
-           }
+        stage ('Build') {
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+                sh 'docker build --tag=item:latest .'
+            }
         }
+        stage ('BuildDocker') {
+            steps {
+                sh 'docker build --tag=item:latest .'
+            }
+        }
+    }
+}
