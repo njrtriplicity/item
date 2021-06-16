@@ -24,20 +24,12 @@ pipeline {
         }
         stage ('BuildDocker') {
             steps {
-                script
-                    {
-                        itemImage = docker.build("item-image2")
-                    }
+                   sh 'docker.build("item2")'
             }
         }
         stage('Push image') {
             steps {
-                script {
-                        docker.withRegistry( 'https://hub.docker.com/', git ) {
-                            itemImage.push("$BUILD_NUMBER")
-                            itemImage.push('latest')
-                        }
-                }
+                sh 'docker push njtriplicity/item2'
             }
         }
     }
