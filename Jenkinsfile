@@ -33,7 +33,7 @@ pipeline {
                 withCredentials([usernameColonPassword(credentialsId: 'git', variable: 'docker-hub')]) {
                     sh "docker login -u njrtriplicity -p cb@viooh3"
                 }
-                  sh 'docker push item2:latest'
+                  sh 'docker push cbviooh/item2:latest'
             }
         }
 //         stage('Push image') {
