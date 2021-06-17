@@ -24,12 +24,12 @@ pipeline {
         }
         stage ('BuildDocker') {
             steps {
-                   sh 'docker build --tag=item2:latest .'
+                   sh 'docker build --tag=cbviooh/item2:latest .'
             }
         }
         stage('Upload Image to DockerHub'){
             steps {
-                echo "cred = ${git}"
+//                 echo "cred = ${git}"
                 withCredentials([usernameColonPassword(credentialsId: 'git', variable: 'docker-hub')]) {
                     sh "docker login -u njrtriplicity -p cb@viooh3"
                 }
