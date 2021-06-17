@@ -29,11 +29,11 @@ pipeline {
         }
         stage('Upload Image to DockerHub'){
             steps {
-                sh '${git}'
+                echo "cred = ${git}"
                 withCredentials([usernameColonPassword(credentialsId: 'git', variable: 'docker-hub')]) {
                     sh "docker login -u njrtriplicity -p cb@viooh3"
                 }
-                  sh 'docker push item2'
+                  sh 'docker push item2:latest'
             }
         }
 //         stage('Push image') {
