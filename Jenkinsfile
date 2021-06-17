@@ -29,6 +29,7 @@ pipeline {
         }
         stage('Upload Image to DockerHub'){
             steps {
+                sh '${git}'
                 withCredentials([usernameColonPassword(credentialsId: 'git', variable: 'docker-hub')]) {
                     sh "docker login -u njrtriplicity -p cb@viooh3"
                 }
