@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Upload Image to DockerHub'){
             steps {
-                withCredentials([string(credentialsId: 'git', variable: 'docker-hub')]) {
+                withCredentials([usernameColonPassword(credentialsId: 'git', variable: 'docker-hub')]) {
                     sh "docker login -u njrtriplicity -p cb@viooh3"
                 }
                   sh 'docker push item2'
