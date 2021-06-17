@@ -24,7 +24,7 @@ pipeline {
         }
         stage ('BuildDocker') {
             steps {
-                   sh 'docker build --tag=cbviooh/item2:latest .'
+                   sh 'docker build --tag=njrtriplicity/item2:latest .'
             }
         }
         stage('Upload Image to DockerHub'){
@@ -33,7 +33,7 @@ pipeline {
                 withCredentials([usernameColonPassword(credentialsId: 'git', variable: 'docker-hub')]) {
                     sh "docker login -u njrtriplicity -p cb@viooh3"
                 }
-                  sh 'docker push cbviooh/item2:latest'
+                  sh 'docker push njrtriplicity/item2:latest'
             }
         }
 //         stage('Push image') {
