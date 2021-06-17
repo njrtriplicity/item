@@ -27,14 +27,22 @@ pipeline {
                    sh 'docker build --tag=item2:latest .'
             }
         }
-        stage('Push image') {
+        stage('Upload Image to DockerHub'){
             steps {
-                    echo 'Starting to build docker image'
-                    script {
-                        def customImage = docker.build("my-image:${env.BUILD_ID}")
-                        customImage.push()
-                    }
+                withCredentials([string(credentialsId: 'git', variable: 'docker-hub')]) {
+                    sh "docker login -u njrtriplicity -p cb@viooh3"
+                }
+                  sh 'docker push item2'
             }
         }
+//         stage('Push image') {
+//             steps {
+//                     echo 'Starting to build docker image'
+//                     script {
+//                         def customImage = docker.build("my-image:${env.BUILD_ID}")
+//                         customImage.push()
+//                     }
+//             }
+//         }
     }
 }
