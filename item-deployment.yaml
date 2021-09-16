@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: item-deployment
+  labels:
+    app: item
+spec:
+  selector:
+    matchLabels:
+      app: item
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: item
+    spec:
+      containers:
+        - name: item
+          image: njrtriplicity/item
+          ports:
+            - containerPort: 5001
